@@ -14,8 +14,9 @@ def rootFolders = [
     provisionFolder,
     buildFolder
 ]
+completeJobName = sh(returnStdout: true, script: "echo $JOB_NAME")
 def environments = [
-    "dev",
+    completeJobName.split('/')[-2].trim().toLowerCase(),
 ]
 def provisionJobs = [
     "kafka",
