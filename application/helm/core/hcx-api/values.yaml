@@ -79,7 +79,7 @@ resources:
   #   cpu: 100m
   #   memory: 128Mi
 externalConfig:
-  name: "externalConfig"
+  name: "externalconfig"
   path: "/config"
 
 
