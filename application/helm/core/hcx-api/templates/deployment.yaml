@@ -54,6 +54,14 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: {{ .Values.externalConfig.name }}
+              mountPath: {{ .Values.externalConfig.path }}
+              readOnly: true
+      volumes:
+        - name: {{ .Values.externalConfig.name }}
+          configMap:
+            name: {{ .Values.externalConfig.name }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

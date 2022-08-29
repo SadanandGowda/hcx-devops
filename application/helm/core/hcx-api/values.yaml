@@ -78,6 +78,10 @@ resources:
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+externalConfig:
+  name: "externalConfig"
+  path: "/config"
+
 
 autoscaling:
   enabled: false
