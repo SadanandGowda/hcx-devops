@@ -20,7 +20,7 @@ env:
   postgres_tablename: "payload"
   registry_basePath: "http://hcx-registry.{{ env }}.svc.cluster.local:8081"
   base_url: "{{ base_url }}"
-  version: "{{ api_version }}"
+  version: "{{ version }}"
   email : "{{ user_email }}"
   password : "{{ hcx_password }}"
   token_url : "{{ token_url }}"
