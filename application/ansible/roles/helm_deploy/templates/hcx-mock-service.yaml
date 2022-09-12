@@ -21,7 +21,7 @@ env:
   registry_basePath: "http://hcx-registry.{{ env }}.svc.cluster.local:8081"
   base_url: "{{ base_url }}"
   version: "{{ version }}"
-  email : "{{ user_email }}"
+  email : "{{ email }}"
   password : "{{ hcx_password }}"
   token_url : "{{ token_url }}"
 service:
