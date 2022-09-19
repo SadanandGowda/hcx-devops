@@ -22,8 +22,8 @@ env:
   base_url: "{{ base_url }}"
   version: "{{ version }}"
   email : "{{ email }}"
-  password : "{{ hcx_password }}"
-  token_url : "{{ token_url }}"
+  pass : "{{ hcx_password }}"
+  url : "{{ token_url }}"
 service:
   type: ClusterIP
 
