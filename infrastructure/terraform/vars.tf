@@ -21,7 +21,8 @@ variable "ec2" {
   type = map(string)
   default = {
     "kafka" = "t3.large",
-  }
+    "secor" = "t3.large",
+ }
 }
 
 variable "vpc_cidr" {
