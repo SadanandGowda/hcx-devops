@@ -14,7 +14,7 @@ annotations:
     - name: Jenkins
       url: https://www.jenkins.io/
 apiVersion: v2
-appVersion: 2.303.3
+appVersion: 2.372
 description: Jenkins - Build great things at any scale! The leading open source automation
   server, Jenkins provides hundreds of plugins to support building, deploying and
   automating any project.

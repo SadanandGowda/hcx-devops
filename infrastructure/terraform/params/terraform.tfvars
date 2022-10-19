@@ -1,7 +1,7 @@
-env = "dev"
+env = "poc"
 
 AWS_REGION = "ap-south-1"
-AWS_PROFILE = "target_hcx"
+AWS_PROFILE = "target_hcx_sad"
 instance_type = "t3.large"
 
 ami = "ami-0c1a7f89451184c8b"

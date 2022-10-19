@@ -1,6 +1,6 @@
 resource "aws_key_pair" "admin-key-pair" {
-  key_name   = "admin-key-pair"
-  public_key = file("admin-key-pair.pub")
+  key_name   = "admin-key-pair-poc"
+  public_key = file("admin-key-pair-poc.pub")
 }
 
 resource "aws_instance" "server" {

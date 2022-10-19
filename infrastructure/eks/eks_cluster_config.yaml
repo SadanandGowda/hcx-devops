@@ -6,29 +6,29 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: dev-cluster
+  name: poc-cluster
   region: ap-south-1
-  version: "1.20"
+  version: "1.23"
 
 vpc:
-  id: "vpc-0a7e986d70910cfea"
+  id: "vpc-07c70dffa10f9ef60"
   cidr: "10.0.0.0/16"       # (optional, must match CIDR used by the given VPC)
   subnets:
     # must provide 'private' and/or 'public' subnets by availibility zone as shown
     private:
       ap-south-1a:
-        id: "subnet-014b5098734fdee8d"
+        id: "subnet-03d7b3fa52beae9ad"
       ap-south-1b:
-        id: "subnet-0e73e90b733ba4b93"
+        id: "subnet-08a95d060abe2a42c"
       ap-south-1c:
-        id: "subnet-0040a579a90d12901"
+        id: "subnet-039331cc3d2cb21f2"
     public:
       ap-south-1a:
-        id: "subnet-0e871951cc34ed8d8"
+        id: "subnet-089dcc629408a88c4"
       ap-south-1b:
-        id: "subnet-0bd3ff817160f4676"
+        id: "subnet-0bab335c7c20ca337"
       ap-south-1c:
-        id: "subnet-0b2132d251a914455"
+        id: "subnet-0fa58f1cd7d3a8767"
 
 iam:
   withOIDC: true
@@ -39,19 +39,42 @@ iam:
       labels: {aws-usage: "cluster-ops"}
     wellKnownPolicies:
       autoScaler: true
-    roleName: eksctl-cluster-autoscaler-role
+    roleName: eksctl-poc-cluster-autoscaler-role
     roleOnly: true
 managedNodeGroups:
   - name: managed-ng-1
     # EC2 tags required for cluster-autoscaler auto-discovery
     tags:
       k8s.io/cluster-autoscaler/enabled: "true"
-      k8s.io/cluster-autoscaler/dev-cluster: "owned"
+      k8s.io/cluster-autoscaler/poc-cluster: "owned"
     instanceType: t3.large
     securityGroups:
       attachIDs: 
-        - "sg-04607f5bbc4b9fd30"
+        - "sg-0d0888f8a7f37de10"
     minSize: 1
-    maxSize: 2
-    desiredCapacity: 1
+    maxSize: 4
+    desiredCapacity: 4
     volumeSize: 80
+    maxPodsPerNode: 100
+    iam:
+      withAddonPolicies:
+        efs: true
+        ebs: true
+        autoScaler: true
+fargateProfiles:
+  # - name: fargate-hcx-poc-eks
+  #   selectors:
+  #     # All workloads in the "kube-system" Kubernetes namespace will be
+  #     # scheduled onto Fargate:
+  #     - namespace: kube-system
+  - name: fp-poc
+    selectors:
+      # All workloads in the "cicd" Kubernetes namespace matching the following
+      # label selectors will be scheduled onto Fargate:
+      - namespace: cicd
+        labels:
+          env: cicd
+          runtime: ondemand
+    tags:
+      env: poc
+      name: fp-poc

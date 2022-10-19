@@ -1,12 +1,12 @@
 variable "env" {
-  default = "dev"
+  default = "poc"
 }
 
 variable "AWS_REGION" {
   default = "ap-south-1"
 }
 variable "AWS_PROFILE" {
-  default = "target_hcx"
+  default = "target_hcx_sad"
 }
 
 variable "instance_type" {

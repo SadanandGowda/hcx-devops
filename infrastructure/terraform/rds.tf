@@ -46,7 +46,7 @@ resource "aws_db_instance" "rds" {
   max_allocated_storage = 100
   db_subnet_group_name  = module.vpc.database_subnet_group
   skip_final_snapshot   = true
-  name                  = "postgresql"
+  db_name                  = "postgresql"
   username              = "hcxpostgresql"
   password              = var.postgres_password
   port                  = 5432
