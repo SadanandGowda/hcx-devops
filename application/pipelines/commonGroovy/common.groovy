@@ -9,7 +9,7 @@ commonVariables = {
 
 checkoutPrivate = {
           checkout(
-            [$class: 'GitSCM', branches: [[name: '*/poc']],
+            [$class: 'GitSCM', branches: [[name: '*/main']],
             extensions: [
                 [$class: 'RelativeTargetDirectory', relativeTargetDir: 'private'],
                 [$class: 'CloneOption', noTags: true, reference: '', shallow: true]
