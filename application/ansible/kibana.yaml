@@ -1,0 +1,24 @@
+- hosts: kibana
+  become: yes
+  vars:
+    kibana_version: 7.16.1
+    kibana_package: kibana
+    kibana_package_state: present
+  roles:
+    - geerlingguy.java
+    - { role: kibana,
+        kibana_config: {
+          kibana_service_state: started,
+          kibana_service_enabled: true,
+          kibana_config_template: kibana.yml.j2,
+          kibana_config_file_path: /etc/kibana/kibana.yml,
+          kibana_server_port: 5601,
+          kibana_server_host: "0.0.0.0",
+
+          # Ref: https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-network.html
+          # Ref: https://stackoverflow.com/questions/37970187/elasticsearch-cluster-master-not-discovered-exception
+          kibana_elasticsearch_url: "http://localhost:9200",
+          kibana_elasticsearch_username: "",
+          kibana_elasticsearch_password: "",
+        },
+      }
