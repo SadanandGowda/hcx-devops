@@ -4,6 +4,7 @@
     kibana_version: 7.16.1
     kibana_package: kibana
     kibana_package_state: present
+    
   roles:
     - geerlingguy.java
     - { role: kibana,
@@ -19,6 +20,6 @@
           # Ref: https://stackoverflow.com/questions/37970187/elasticsearch-cluster-master-not-discovered-exception
           kibana_elasticsearch_url: "http://localhost:9200",
           kibana_elasticsearch_username: "",
-          kibana_elasticsearch_password: ""
+          kibana_elasticsearch_password: "",
         },
       }
