@@ -12,12 +12,14 @@ node('ansible') {
       }
       stage("Deploy") {
           container('ansible'){
+            // Setting build job to false since kibana image is from external repo
+            copyArtifactJob = "false"
             // Gathering all required variables
             commonCode.commonVariables()
             // Checking out private repo
             commonCode.checkoutPrivate()
             // Deploy helm
-            commonCode.deployHelm(appName)
+            commonCode.deployHelm(appName, copyArtifactJob)
           }
       }
     }
