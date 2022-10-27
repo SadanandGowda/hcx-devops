@@ -1,0 +1,7 @@
+image:
+  repository: "{{ docker_repo }}/demo-app"
+
+elasticsearchHosts: "{{ es_host }}"
+service:
+  type: ClusterIP 
+  port: 5601
