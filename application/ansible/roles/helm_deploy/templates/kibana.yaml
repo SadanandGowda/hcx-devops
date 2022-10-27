@@ -1,4 +1,4 @@
-elasticsearchHosts: "{{ es_host }}"
+elasticsearchHosts: "http://{{ es_host }}:9200"
 service:
   type: ClusterIP 
   port: 5601
