@@ -1,5 +1,6 @@
 ---
 elasticsearchHosts: "http://elasticsearch-master:9200"
+server_basepath: /kibana
 
 replicas: 1
 
