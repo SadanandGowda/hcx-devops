@@ -1,4 +1,4 @@
 elasticsearchHosts: "http://{{ es_host }}:9200"
 service:
-  type: ClusterIP 
+  type: LoadBalancer 
   port: 5601
