@@ -1,15 +1,7 @@
 name: Deploy test workflow
 on:
-  workflow_dispatch:
-    inputs:
-      cluster-name:
-        description: 'Build Cluster'
-        required: true
-        default: 'dev'
-      namespace:
-        description: 'Build ENV'
-        required : true
-        default: 'dev'
+  push:
+    
 jobs:
   deployment:
     runs-on: 'ubuntu-latest'
