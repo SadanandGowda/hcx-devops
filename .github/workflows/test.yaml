@@ -1,4 +1,4 @@
-name: Deploy test workflow
+name: Deploy workflow on Main
 on:
   workflow_dispatch:
     inputs:
