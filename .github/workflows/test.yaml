@@ -2,12 +2,12 @@ name: Deploy workflow on Test2
 on:
   workflow_dispatch:
     inputs:
-      cluster-name:
-        description: 'Build Cluster'
+      Environment_Name:
+        description: 'Deploy Environment'
         required: true
         default: 'staging'
       namespace:
-        description: 'Build ENV'
+        description: 'Deploy Environment'
         required : true
         default: 'staging'
 jobs:
