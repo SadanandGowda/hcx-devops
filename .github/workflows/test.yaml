@@ -1,4 +1,4 @@
-name: Deploy workflow on NewMain
+name: Deploy workflow on Test2
 on:
   workflow_dispatch:
     inputs:
