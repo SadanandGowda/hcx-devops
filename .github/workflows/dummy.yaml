@@ -5,15 +5,48 @@ on:
       cluster-name:
         description: 'Build Cluster'
         required: true
-        default: 'true'
+        default: 'dev'
       namespace:
         description: 'Build ENV'
         required : true
-        default: 'true'
+        default: 'dev'
 jobs:
   deployment:
     runs-on: 'ubuntu-latest'
     steps:
-      - uses: actions/checkout@v2
-      - name : path
-        run : pwd
+    - uses: actions/checkout@v2
+
+    - name: AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
+
+
+
+
+
+
+
+
+    - name: Checkout private 
+      uses: actions/checkout@v3
+      with:
+        # repository: Swasth-Digital-Health-Foundation/DevOps
+        repository: Swasth-Digital-Health-Foundation/DevOps
+        ref: 'workflow'
+        ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        submodules: recursive
+        path: DevOps
+
+
+    - name: Cat private repo file
+      run: cat ${{ github.workspace }}/DevOps/hcx/ansible/inventory/dev/group_vars/dev.yaml
+      
+
+
+
+###
+
+
