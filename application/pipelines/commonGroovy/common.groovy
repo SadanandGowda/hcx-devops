@@ -5,12 +5,11 @@ commonVariables = {
     appName = params.application ?: jobName
     envName = completeJobName.split('/')[-2].trim().toLowerCase()
     chartPath = "${env.WORKSPACE}/application/helm/core/$jobName"
-    privateRepoBranch = params.privateRepoBranch ?: "*/main"
 }
 
 checkoutPrivate = {
           checkout(
-            [$class: 'GitSCM', branches: [[name: privateRepoBranch]],
+            [$class: 'GitSCM', branches: [[name: '*/main']],
             extensions: [
                 [$class: 'RelativeTargetDirectory', relativeTargetDir: 'private'],
                 [$class: 'CloneOption', noTags: true, reference: '', shallow: true]
