@@ -1,5 +1,4 @@
-name: Deploy worflow for HCX API Gateway.
-
+name: Deploy worflow for HCX API.
 on:
   workflow_dispatch:
     inputs:
@@ -7,7 +6,6 @@ on:
         description: Cluster Environment
         default: dev
         required: true
-
 # on:
 #   push:
 #     branches:
@@ -70,19 +68,11 @@ jobs:
         ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
         submodules: recursive
         path: DevOps
-
-
+      
     - name: Pull image tag from S3 bucket
       run: |
         aws s3 cp s3://build-tags/tag.txt /tmp/tag.txt
-        cat /tmp/tag.txt
-
-    - name: Set an environment variable from a file
-      # run: env MY_VARIABLE="$(cat /tmp/tag.txt)"
-      run: echo "IMAGE_TAG=$(cat /tmp/tag.txt)" >> $GITHUB_ENV
-
-    - name: Print the environment variable
-      run: echo ${{ env.IMAGE_TAG }}
+        export IMAGE_TAG="$(cat /tmp/tag.txt)"
 
     - name: 'Deploy'
       uses: bitovi/github-actions-deploy-eks-helm@v1.1.0
@@ -90,16 +80,15 @@ jobs:
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS__KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        # cluster-role-arn: arn:aws:iam::131795456882:user/hcx
+
         aws-region: ap-south-1
         # aws-profile: git-deploy
         cluster-name: ${{ github.event.inputs.environment }}-cluster
-        name: 'api-gateway'
+        name: 'hcx-api'
         namespace: '${{ github.event.inputs.environment }}'
-        # release: api-gateway
-        chart-path: 'application/helm/core/api-gateway/'
-        config-files: 'application/helm/core/api-gateway/values.yaml, DevOps/hcx/ansible/inventory/${{ github.event.inputs.environment }}/group_vars/${{ github.event.inputs.environment }}.yaml' #, https://github.com/Swasth-Digital-Health-Foundation/DevOps/blob/workflow/hcx/ansible/inventory/dev/group_vars/dev.yaml'
-       # token: '${{ github.token }}'
+        # release: hcx-api
+        chart-path: 'application/helm/core/hcx-api/'
+        config-files: 'application/helm/core/hcx-api/values.yaml, DevOps/hcx/ansible/inventory/${{ github.event.inputs.environment }}/group_vars/${{ github.event.inputs.environment }}.yaml'
         values: |
           image.tag=${{ env.IMAGE_TAG }}
       env:
@@ -107,27 +96,4 @@ jobs:
 
 ###
 
-
-
-    # - name: Run playbook
-    #   uses: dawidd6/action-ansible-playbook@v2.6.1
-    #   with:
-    #     # Required, playbook filepath
-    #     playbook: '${{ github.workspace }}/application/ansible/helm.yaml'
-    #     # Optional, directory where playbooks live
-    #     directory: 'application/ansible/roles/helm_deploy/templates/'
-    #     # Optional, SSH private key
-    #     key: ${{secrets.SSH_PRIVATE_KEY}}
-    #     # Optional, literal inventory file contents
-    #     inventory: 'DevOps/hcx/ansible/inventory/dev/'
-    #     # Optional, SSH known hosts file content
-    #     known_hosts: 'DevOps/hcx/ansible/inventory/dev/hosts'
-    #     vault_password: ${{secrets.VAULT_PASSWORD}}
-    #     # Optional, galaxy requirements filepath
-    #     #requirements: galaxy-requirements.yml
-    #     # Optional, additional flags to pass to ansible-playbook
-    #     options: |
-    #       --inventory .hosts
-    #       --limit group1
-    #       --verbose
 

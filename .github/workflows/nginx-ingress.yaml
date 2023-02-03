@@ -1,4 +1,4 @@
-name: Deploy workflow for HCX Demo application.
+name: Deploy workflow for Nginx Ingress
 on:
   workflow_dispatch:
     inputs:
@@ -32,22 +32,6 @@ jobs:
 
 
 
-
-      # - name: Extract branch name
-      #   shell: bash
-      #   run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-      #   id: get_branch
-
-      # - name: Print current branch
-      #   shell: bash
-      #   run: echo ${{ steps.get_branch.outputs.branch }}
-
-      - name: Pull image tag from S3 bucket
-        run: |
-          aws s3 cp s3://build-tags/tag.txt /tmp/tag.txt
-          export IMAGE_TAG="$(cat /tmp/tag.txt)"
-
-
       - name: 'Deploy'
         uses: bitovi/github-actions-deploy-eks-helm@v1.1.0
         # uses: vimeda/helm@v1.6.8
@@ -58,13 +42,11 @@ jobs:
           aws-region: ap-south-1
           # aws-profile: git-deploy
           cluster-name: ${{ github.event.inputs.environment }}-cluster
-          name: 'demo-app'
+          name: 'nginx-ingress'
           namespace: ${{ github.event.inputs.environment }}
-          # release: demo-app
-          chart-path: 'application/helm/core/demo-app/'
-          config-files: 'application/helm/core/demo-app/values.yaml, DevOps/hcx/ansible/inventory/${{ github.event.inputs.environment }}/group_vars/${{ github.event.inputs.environment }}.yaml' 
-          values: |
-            image.tag=${{ env.IMAGE_TAG }}
+          # release: nginx-ingress
+          chart-path: 'application/helm/core/nginx-ingress/'
+          config-files: 'application/helm/core/nginx-ingress/values.yaml, DevOps/hcx/ansible/inventory/${{ github.event.inputs.environment }}/group_vars/${{ github.event.inputs.environment }}.yaml' #, https://github.com/Swasth-Digital-Health-Foundation/DevOps/blob/workflow/hcx/ansible/inventory/${{ github.event.inputs.environment }}/group_vars/${{ github.event.inputs.environment }}.yaml'
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
