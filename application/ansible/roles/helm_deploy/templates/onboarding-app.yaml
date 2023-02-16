@@ -3,7 +3,7 @@ image:
   repository: "{{ docker_repo }}/onboarding-app"
 
 domain_base_url: "{{ domain_base_url }}"
-api_version: "{{ api_version }}"
+api_version: "{{ version }}"
 pariticpant_api_version: "{{ pariticpant_api_version }}"
 env: "{{ env }}"
 hcx_admin_token: "{{ hcx_admin_token }}"
