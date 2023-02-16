@@ -3,13 +3,13 @@ kind: ConfigMap
 metadata:
   name: onboarding-app
 data:
-  react_app_hcx_path: {{ domain_base_url }}
-  react_app_hcx_api_version: {{ api_version }}
-  react_app_participant_api_version: {{ pariticpant_api_version }}
-  react_app_env: {{ env }}
-  react_app_hcx_admin_token: {{ hcx_admin_token }}
-  react_app_keycloak_realm_name: {{ keycloak_realm_name }}
-  react_app_keycloak_admin_username: {{ keycloak_admin_username }}
-  react_app_keycloak_admin_password: {{ keycloak_admin_password }}
-  react_app_mock_payor_code: {{ hcx_mock_payor_code }}
-  react_app_participant_tag: {{ hcx_participant_tag }}
+  react_app_hcx_path: {{ .Values.domain_base_url }}
+  react_app_hcx_api_version: {{ .Values.api_version }}
+  react_app_participant_api_version: {{ .Values.pariticpant_api_version }}
+  react_app_env: {{ .Values.env }}
+  react_app_hcx_admin_token: {{ .Values.hcx_admin_token }}
+  react_app_keycloak_realm_name: {{ .Values.keycloak_realm_name }}
+  react_app_keycloak_admin_username: {{ .Values.keycloak_admin_username }}
+  react_app_keycloak_admin_password: {{ .Values.keycloak_admin_password }}
+  react_app_mock_payor_code: {{ .Values.hcx_mock_payor_code }}
+  react_app_participant_tag: {{ .Values.hcx_participant_tag }}

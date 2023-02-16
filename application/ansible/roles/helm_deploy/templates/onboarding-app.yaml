@@ -11,7 +11,7 @@ keycloak_realm_name: "{{ keycloak_realm_name }}"
 keycloak_admin_username: "{{ keycloak_admin_username }}"
 keycloak_admin_password: "{{ keycloak_admin_password }}"
 hcx_mock_payor_code: "{{ hcx_mock_payor_code }}"
-hcx_participant_tag: "{{ hcx_participant_tag }} "
+hcx_participant_tag: "{{ hcx_participant_tag }}"
 
 service:
   type: ClusterIP
