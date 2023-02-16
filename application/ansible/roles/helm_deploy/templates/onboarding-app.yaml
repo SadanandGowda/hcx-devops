@@ -1,0 +1,18 @@
+image:
+  tag: "{{ image_tag }}"
+  repository: "{{ docker_repo }}/onboarding-app"
+
+domain_base_url: "{{ domain_base_url }}"
+api_version: "{{ api_version }}"
+pariticpant_api_version: "{{ pariticpant_api_version }}"
+env: "{{ env }}"
+hcx_admin_token: "{{ hcx_admin_token }}"
+keycloak_realm_name: "{{ keycloak_realm_name }}"
+keycloak_admin_username: "{{ keycloak_admin_username }}"
+keycloak_admin_password: "{{ keycloak_admin_password }}"
+hcx_mock_payor_code: "{{ hcx_mock_payor_code }}"
+hcx_participant_tag: "{{ hcx_participant_tag }} "
+
+service:
+  type: ClusterIP
+  port: 3000

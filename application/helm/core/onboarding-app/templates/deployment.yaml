@@ -1,0 +1,120 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "onboarding-app.fullname" . }}
+  labels:
+    {{- include "onboarding-app.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "onboarding-app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "onboarding-app.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "onboarding-app.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          env:
+            - name: REACT_APP_HCX_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: onboarding-app
+                  key: react_app_hcx_path
+            - name: REACT_APP_HCX_API_VERSION
+              valueFrom:
+                configMapKeyRef:
+                  name: onboarding-app
+                  key: react_app_hcx_api_version
+            - name: REACT_APP_PARTICIPANT_API_VERSION
+              valueFrom:
+                configMapKeyRef:
+                  name: onboarding-app
+                  key: react_app_participant_api_version
+            - name: REACT_APP_ENV
+              valueFrom:
+                configMapKeyRef:
+                  name: onboarding-app
+                  key: react_app_env
+            - name: REACT_APP_HCX_ADMIN_TOKEN
+              valueFrom:
+                configMapKeyRef:
+                  name: onboarding-app
+                  key: react_app_hcx_admin_token
+            - name: REACT_APP_KEYCLOAK_REALM_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: onboarding-app
+                  key: react_app_keycloak_realm_name
+            - name: REACT_APP_KEYCLOAK_ADMIN_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: onboarding-app
+                  key: react_app_keycloak_admin_username
+            - name: REACT_APP_KEYCLOAK_ADMIN_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: onboarding-app
+                  key: react_app_keycloak_admin_password
+            - name: REACT_APP_MOCK_PAYOR_CODE
+              valueFrom:
+                configMapKeyRef:
+                  name: onboarding-app
+                  key: react_app_mock_payor_code
+            - name: REACT_APP_PARTICIPANT_TAG
+              valueFrom:
+                configMapKeyRef:
+                  name: onboarding-app
+                  key: react_app_participant_tag
+          volumeMounts:
+          - name: onboarding-app
+            mountPath: "/onboarding-app"
+            readOnly: true
+      volumes:
+        - name: onboarding-app
+          configMap:
+            name: onboarding-app
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
