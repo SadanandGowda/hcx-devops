@@ -14,5 +14,5 @@ hcx_mock_payor_code: "{{ hcx_mock_payor_code }}"
 hcx_participant_tag: "{{ hcx_participant_tag }}"
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port: 3000
