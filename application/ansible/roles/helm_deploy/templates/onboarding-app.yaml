@@ -1,4 +1,5 @@
 image:
+  tag: "{{ image_tag }}"
   repository: "{{ docker_repo }}/onboarding-app"
 
 domain_base_url: "{{ domain_base_url }}"

@@ -44,9 +44,6 @@ deployHelm = {
     additionalArgs = args ?: " "
     // Overriding artifact version to deploy
     imageTag = params.artifact_version ?: ""
-    if(imageTag != "") {
-        additionalVariables = "-e image_tag=${imageTag} -e namespace=${envName} -e chart_path=${chartPath}"
-    }
     // If we deploy generic chart, there's nothing to build and copy.
     if(copyArtifactJob != "false") {
         if(imageTag == "") {
