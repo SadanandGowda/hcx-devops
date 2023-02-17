@@ -17,7 +17,7 @@ node('ansible') {
             // Checking out private repo
             commonCode.checkoutPrivate()
             // Deploy helm
-            commonCode.deployHelm(appName,"false","-e image_tag=${imageTag}")
+            commonCode.deployHelm(appName)
           }
       }
     }
