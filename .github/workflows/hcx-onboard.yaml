@@ -1,13 +1,20 @@
-name: Deploy HCX Demo application
+name: Deploy HCX Onboard application
 on:
   workflow_dispatch:
     inputs:
       environment:
         description: Cluster Environment
-        default: dev
+        default: ${{ github.event.inputs.environment }}
         required: true
+# on:
+#   push:
+#     branches:
+#     - master
+#     - staging
+#     - workflow
 jobs:
   deployment:
+    if: github.actor == 'SadanandGowda' || github.actor ==  'AbhiGaddi' || github.actor == 'shiva-rakshith'
     runs-on: 'ubuntu-latest'
     steps:
       - uses: actions/checkout@v2
@@ -61,10 +68,9 @@ jobs:
           namespace: ${{ github.event.inputs.environment }}
           # release: hcx-onboard
           chart-path: 'application/helm/core/hcx-onboard/'
-          config-files: 'application/helm/core/hcx-onboard/values.yaml, DevOps/hcx/ansible/inventory/dev/group_vars/${{ github.event.inputs.environment }}.yaml' #, https://github.com/Swasth-Digital-Health-Foundation/DevOps/blob/workflow/hcx/ansible/inventory/dev/group_vars/dev.yaml'
+          config-files: 'application/helm/core/hcx-onboard/values.yaml, DevOps/hcx/ansible/inventory/${{ github.event.inputs.environment }}/group_vars/${{ github.event.inputs.environment }}.yaml' #, https://github.com/Swasth-Digital-Health-Foundation/DevOps/blob/workflow/hcx/ansible/inventory/${{ github.event.inputs.environment }}/group_vars/${{ github.event.inputs.environment }}.yaml'
           values: |
-            image:
-              tag: env.IMAGE_TAG
+            image.tag=${{ env.IMAGE_TAG }}
         env:
           KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 

@@ -1,4 +1,4 @@
-name: Deploy worflow for HCX API.
+name: Deploy workflow for HCX API.
 on:
   workflow_dispatch:
     inputs:
@@ -14,6 +14,7 @@ on:
 #     - workflow
 jobs:
   deployment:
+    if: github.actor == 'SadanandGowda' || github.actor ==  'AbhiGaddi' || github.actor == 'shiva-rakshith'
     runs-on: 'ubuntu-latest'
     steps:
     - uses: actions/checkout@v2
@@ -83,14 +84,14 @@ jobs:
 
         aws-region: ap-south-1
         # aws-profile: git-deploy
-        cluster-name: dev-cluster
+        cluster-name: ${{ github.event.inputs.environment }}-cluster
         name: 'hcx-api'
-        namespace: 'dev'
+        namespace: '${{ github.event.inputs.environment }}'
         # release: hcx-api
         chart-path: 'application/helm/core/hcx-api/'
-        config-files: 'application/helm/core/hcx-api/values.yaml, DevOps/hcx/ansible/inventory/dev/group_vars/dev.yaml'
-        # values: |
-        #   image.tag:4e555b08_58
+        config-files: 'application/helm/core/hcx-api/values.yaml, DevOps/hcx/ansible/inventory/${{ github.event.inputs.environment }}/group_vars/${{ github.event.inputs.environment }}.yaml'
+        values: |
+          image.tag=${{ env.IMAGE_TAG }}
       env:
         KUBECONFIG_FILE: '${{ secrets.KUBECONFIG }}'
 
