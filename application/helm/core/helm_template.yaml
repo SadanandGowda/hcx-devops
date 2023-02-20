@@ -1,0 +1,55 @@
+COMPUTED VALUES:
+affinity: {}
+autoscaling:
+  enabled: false
+  maxReplicas: 2
+  minReplicas: 1
+  targetCPUUtilizationPercentage: 80
+env:
+  connectionInfo_password: SuperSecurePassword
+  connectionInfo_uri: jdbc:postgresql://terraform-20211111045938760100000001.culmyp72rbwi.ap-south-1.rds.amazonaws.com/registry
+  connectionInfo_username: hcxpostgresql
+  elastic_search_connection_url: 10.0.1.18:9200
+  elastic_search_enabled: true
+  sunbird_sso_admin_client_id: admin-api
+  sunbird_sso_admin_client_secret: bf6969ca-7b0d-405d-a1f1-c56f707bc36e
+  sunbird_sso_client_id: client
+  sunbird_sso_realm: swasth-health-claim-exchange
+  sunbird_sso_url: http://dev-hcx.swasth.app/auth
+fullnameOverride: ""
+image:
+  pullPolicy: Always
+  repository: swasth2021/hcx-registry
+  tag: b0f0bf35_50
+imagePullSecrets: []
+ingress:
+  annotations: {}
+  className: ""
+  enabled: false
+  hosts:
+  - host: chart-example.local
+    paths:
+    - path: /
+      pathType: ImplementationSpecific
+  tls: []
+nameOverride: ""
+nodeSelector: {}
+podAnnotations: {}
+podSecurityContext: {}
+replicaCount: 1
+resources:
+  limits:
+    cpu: 500m
+    memory: 1024Mi
+  requests:
+    cpu: 50m
+    memory: 256Mi
+securityContext: {}
+service:
+  port: 8081
+  type: LoadBalancer
+serviceAccount:
+  annotations: {}
+  create: true
+  name: ""
+tolerations: []
