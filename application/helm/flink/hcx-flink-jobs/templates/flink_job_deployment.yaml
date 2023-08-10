@@ -192,7 +192,7 @@ spec:
       {{- end }}
       containers:
       - name: {{ .Release.Name }}-taskmanager
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: Always
         workingDir: {{ .Values.taskmanager.flink_work_dir }}
         command: ["/opt/flink/bin/taskmanager.sh"]
