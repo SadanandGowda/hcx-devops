@@ -40,7 +40,7 @@ spec:
   {{- if eq .Values.service.type "ClusterIP" }}
   type: ClusterIP
   {{- end }}
-  {{- if eq .Values.service.type "LoadBalancer" }}
+  {{- if eq  .Values.hcx_pipeline_jobs.service.type "LoadBalancer" }}
   type: LoadBalancer
   {{- end }}
   ports:
@@ -99,6 +99,7 @@ spec:
             path: {{ .Release.Name }}.conf
           - key: log4j_console_properties
             path: log4j-console.properties
+      serviceAccount: {{ .Release.Namespace }}-sa
       restartPolicy: OnFailure
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -186,6 +187,11 @@ spec:
             path: flink-conf.yaml
           - key: log4j_console_properties
             path: log4j-console.properties
+          - key: base-config
+            path: base-config.conf
+          - key: {{ .Release.Name }}
+            path: {{ .Release.Name }}.conf
+      serviceAccount: {{ .Release.Namespace }}-sa
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -221,6 +227,12 @@ spec:
         - name: flink-config-volume
           mountPath: /opt/flink/conf/log4j-console.properties
           subPath: log4j-console.properties
+        - name: flink-config-volume
+          mountPath: /data/flink/conf/base-config.conf
+          subPath: base-config.conf
+        - name: flink-config-volume
+          mountPath: /data/flink/conf/{{ .Release.Name }}.conf
+          subPath: {{ .Release.Name }}.conf
         resources:
 {{ toYaml .Values.hcx_pipeline_jobs.taskmanagerResources | indent 10 }}
         {{- with .Values.affinity }}
