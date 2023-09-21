@@ -9,9 +9,9 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: certbot
+  name: certbot-dashboard
   labels:
-    app: certbot
+    app: certbot-dashboard
 spec:
   schedule: "0 16 6 * *" # 10th of every month at 6:00 pm it's UTC -> translates in to 12.30 midnight IST
   jobTemplate:
@@ -19,11 +19,11 @@ spec:
       template:
         metadata:
           labels:
-            app: certbot
+            app: certbot-dashboard
         spec:
-          serviceAccountName: certbot
+          serviceAccountName: certbot-dashboard
           containers:
-            - name: certbot
+            - name: certbot-dashboard
               image: swasth2021/certbot-autoupdater
               resources:
                 limits:
@@ -49,14 +49,14 @@ spec:
           volumes:
             - name: renewscript
               configMap:
-                name: certbot
+                name: certbot-dashboard
           restartPolicy: Never
 
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: certbot
+  name: certbot-dashboard
 data:
   renew.sh: |-
     catch_err(){
@@ -79,23 +79,23 @@ data:
 apiVersion: v1
 kind: Service
 metadata:
-  name: certbot
+  name: certbot-dashboard
 spec:
   ports:
     - port: 80
       targetPort: 80
   selector:
-    app: certbot
+    app: certbot-dashboard
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: certbot
+  name: certbot-dashboard
 ---
 kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: certbot
+  name: certbot-dashboard
 rules:
   - apiGroups:
       - apps
@@ -116,12 +116,12 @@ rules:
 kind: RoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
-  name: certbot
+  name: certbot-dashboard
 subjects:
   - kind: ServiceAccount
-    name: certbot # Name is case sensitive
+    name: certbot-dashboard # Name is case sensitive
 roleRef:
   kind: Role #this must be Role or ClusterRole
-  name: certbot # this must match the name of the Role or ClusterRole you wish to bind to
+  name: certbot-dashboard # this must match the name of the Role or ClusterRole you wish to bind to
   apiGroup: rbac.authorization.k8s.io
 {{ end }}
