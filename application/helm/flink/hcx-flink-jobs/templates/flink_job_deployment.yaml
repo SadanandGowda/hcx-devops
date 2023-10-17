@@ -80,6 +80,7 @@ spec:
       annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/port: "{{ .Values.jobmanager.prom_port }}"
+  backoffLimit: 10
     spec:
       volumes:
       - name: flink-config-volume
